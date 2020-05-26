@@ -2,14 +2,18 @@ import { Http, BaseRequestOptions, Response, ResponseOptions, RequestMethod } fr
 import { MockBackend, MockConnection } from '@angular/http/testing';
 
 export function fakeBackendFactory(
-    backend: MockBackend, 
+    backend: MockBackend,
     options: BaseRequestOptions) {
-        
-  let token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6Ik1vc2ggSGFtZWRhbmkiLCJhZG1pbiI6dHJ1ZX0.iy8az1ZDe-_hS8GLDKsQKgPHvWpHl0zkQBqy1QIPOkA';
-    
+
+  // Admin User
+  let token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiYWRtaW4iOnRydWV9.dyt0CoTl4WoVjAHI9Q_CwSKhl6d_9rhM3NrXuJttkao';
+
+  // Not admin user
+  // let token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiYWRtaW4iOmZhbHNlfQ.qWKELmsR8hLrEZE8I8-SYzrajQO82ZSliS-7d1xyNfk';
+
   backend.connections.subscribe((connection: MockConnection) => {
-    // We are using the setTimeout() function to simulate an 
-    // asynchronous call to the server that takes 1 second. 
+    // We are using the setTimeout() function to simulate an
+    // asynchronous call to the server that takes 1 second.
     setTimeout(() => {
       //
       // Fake implementation of /api/authenticate
@@ -33,10 +37,10 @@ export function fakeBackendFactory(
 
 
 
-       // 
+       //
        // Fake implementation of /api/orders
        //
-       if (connection.request.url.endsWith('/api/orders') && 
+       if (connection.request.url.endsWith('/api/orders') &&
            connection.request.method === RequestMethod.Get) {
          if (connection.request.headers.get('Authorization') === 'Bearer ' + token) {
             connection.mockRespond(new Response(
